@@ -85,7 +85,6 @@ DEPENDENCIES
   jekyll-feed (~> 0.17)
   jekyll-paginate
   jekyll-sitemap
-  webrick
 
 BUNDLED WITH
    2.6.9
