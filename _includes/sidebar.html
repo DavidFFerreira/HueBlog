@@ -1,0 +1,74 @@
+<!-- Pesquisa -->
+<div class="widget widget--search">
+  <h4 class="widget-title">🔍 Pesquisar</h4>
+  <div class="widget-search-form">
+    <input type="text" id="sidebarSearch" placeholder="Pesquisar...">
+    <button id="sidebarSearchBtn">Pesquisar</button>
+  </div>
+</div>
+
+<!-- Sobre -->
+<div class="widget widget--about">
+  <h4 class="widget-title">ℹ️ Sobre</h4>
+  <p>Bem-vindo ao <strong>{{ site.title }}</strong>! Partilhamos as melhores notícias, ofertas, guias e recomendações.</p>
+</div>
+
+<!-- Categorias -->
+<div class="widget">
+  <h4 class="widget-title">📂 Categorias</h4>
+  <ul class="widget-list">
+    <li><a href="{{ '/categoria/noticias/' | relative_url }}">📰 Notícias <span class="count">({{ site.posts | where: 'categoria', 'noticias' | size }})</span></a></li>
+    <li><a href="{{ '/categoria/vendas/' | relative_url }}">🏷️ Vendas &amp; Ofertas <span class="count">({{ site.posts | where: 'categoria', 'vendas' | size }})</span></a></li>
+    <li><a href="{{ '/categoria/guias/' | relative_url }}">📖 Guias <span class="count">({{ site.posts | where: 'categoria', 'guias' | size }})</span></a></li>
+    <li><a href="{{ '/categoria/afiliados/' | relative_url }}">🔗 Links Afiliados <span class="count">({{ site.posts | where: 'categoria', 'afiliados' | size }})</span></a></li>
+  </ul>
+</div>
+
+<!-- Artigos recentes -->
+<div class="widget">
+  <h4 class="widget-title">🕐 Recentes</h4>
+  <ul class="widget-posts">
+    {% for post in site.posts limit:5 %}
+    <li>
+      {% if post.imagem %}
+      <a href="{{ post.url | relative_url }}" class="widget-post-img">
+        <img src="{{ post.imagem | relative_url }}" alt="{{ post.title }}" loading="lazy">
+      </a>
+      {% endif %}
+      <div class="widget-post-info">
+        <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+        <span class="meta-date">{{ post.date | date: "%-d/%-m/%Y" }}</span>
+      </div>
+    </li>
+    {% endfor %}
+  </ul>
+</div>
+
+<!-- Melhores Guias -->
+{% assign guias = site.posts | where: "categoria", "guias" | limit: 5 %}
+{% if guias.size > 0 %}
+<div class="widget">
+  <h4 class="widget-title">📖 Melhores Guias</h4>
+  <ul class="widget-posts">
+    {% for post in guias %}
+    <li>
+      {% if post.imagem %}
+      <a href="{{ post.url | relative_url }}" class="widget-post-img">
+        <img src="{{ post.imagem | relative_url }}" alt="{{ post.title }}" loading="lazy">
+      </a>
+      {% endif %}
+      <div class="widget-post-info">
+        <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+        <span class="meta-date">{{ post.date | date: "%-d/%-m/%Y" }}</span>
+      </div>
+    </li>
+    {% endfor %}
+  </ul>
+</div>
+{% endif %}
+
+<!-- RSS Feed -->
+<div class="widget widget--rss">
+  <h4 class="widget-title">📡 RSS Feed</h4>
+  <a href="{{ '/feed.xml' | relative_url }}" class="rss-btn">Subscrever Feed RSS</a>
+</div>

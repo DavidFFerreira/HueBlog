@@ -1,0 +1,86 @@
+---
+layout: default
+---
+<div class="container container--split">
+  <article class="post-single">
+    <header class="post-header">
+      <div class="post-header__meta">
+        <time>{{ page.date | date: "%-d de %B de %Y" }}</time>
+        {% if page.categoria %}<a href="{{ '/categoria/' | append: page.categoria | append: '/' | relative_url }}" class="tag tag--{{ page.categoria }}">{{ page.categoria | capitalize }}</a>{% endif %}
+        {% if page.autor %}<span class="autor">por {{ page.autor }}</span>{% endif %}
+      </div>
+      <h1>{{ page.title }}</h1>
+      {% if page.subtitulo %}<p class="post-subtitulo">{{ page.subtitulo }}</p>{% endif %}
+    </header>
+
+    {% if page.imagem %}
+    <figure class="post-hero-img">
+      <img src="{{ page.imagem | relative_url }}" alt="{{ page.title }}">
+    </figure>
+    {% endif %}
+
+    <!-- Caixa de link afiliado -->
+    {% if page.link_afiliado %}
+    <div class="afiliado-box">
+      <div class="afiliado-box__info">
+        <span class="afiliado-box__label">🔗 Link em Destaque</span>
+        {% if page.preco %}<span class="afiliado-box__price">{{ page.preco }}</span>{% endif %}
+        {% if page.desconto %}<span class="afiliado-box__discount">{{ page.desconto }}</span>{% endif %}
+      </div>
+      <a href="{{ page.link_afiliado }}" target="_blank" rel="nofollow noopener" class="btn-afiliado">Ver Oferta →</a>
+    </div>
+    {% endif %}
+
+    <div class="post-content">
+      {{ content }}
+    </div>
+
+    <!-- Tags -->
+    {% if page.tags.size > 0 %}
+    <div class="post-tags">
+      <span>Tags:</span>
+      {% for tag in page.tags %}
+      <span class="tag-pill">{{ tag }}</span>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- Partilhar -->
+    <div class="post-share">
+      <span>Partilhar:</span>
+      <a href="https://twitter.com/intent/tweet?text={{ page.title | url_encode }}&url={{ page.url | absolute_url | url_encode }}" target="_blank" rel="noopener" class="share-btn share-btn--twitter">Twitter / X</a>
+      <a href="https://www.facebook.com/sharer/sharer.php?u={{ page.url | absolute_url | url_encode }}" target="_blank" rel="noopener" class="share-btn share-btn--facebook">Facebook</a>
+      <a href="https://api.whatsapp.com/send?text={{ page.title | url_encode }}%20{{ page.url | absolute_url | url_encode }}" target="_blank" rel="noopener" class="share-btn share-btn--whatsapp">WhatsApp</a>
+    </div>
+
+    <!-- Posts relacionados -->
+    {% assign cat = page.categoria %}
+    {% assign related = site.posts | where: "categoria", cat | where_exp: "p", "p.url != page.url" | limit: 3 %}
+    {% if related.size > 0 %}
+    <section class="related-posts">
+      <h3>Artigos Relacionados</h3>
+      <div class="posts-grid posts-grid--small">
+        {% for rp in related %}
+        <a href="{{ rp.url | relative_url }}" class="post-card">
+          <div class="post-card__img">
+            {% if rp.imagem %}
+            <img src="{{ rp.imagem | relative_url }}" alt="{{ rp.title }}" loading="lazy">
+            {% else %}
+            <div class="post-card__img--placeholder"><span>📰</span></div>
+            {% endif %}
+          </div>
+          <div class="post-card__body">
+            <h3>{{ rp.title }}</h3>
+            <span class="meta-date">{{ rp.date | date: "%-d/%-m/%Y" }}</span>
+          </div>
+        </a>
+        {% endfor %}
+      </div>
+    </section>
+    {% endif %}
+  </article>
+
+  <aside class="sidebar">
+    {% include sidebar.html %}
+  </aside>
+</div>

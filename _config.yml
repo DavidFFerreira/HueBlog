@@ -1,0 +1,35 @@
+title: "MeuBlog"
+description: "O teu blog de notícias, ofertas e recomendações"
+baseurl: ""
+url: "https://USERNAME.github.io"
+lang: "pt-PT"
+author: "Admin"
+
+# Plugins
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
+  - jekyll-paginate
+
+paginate: 10
+paginate_path: "/page/:num/"
+
+# Categorias
+categories_nav:
+  - name: "Notícias"
+    slug: "noticias"
+    icon: "📰"
+  - name: "Vendas"
+    slug: "vendas"
+    icon: "🏷️"
+  - name: "Guias"
+    slug: "guias"
+    icon: "📖"
+  - name: "Links Afiliados"
+    slug: "afiliados"
+    icon: "🔗"
+
+# Build
+markdown: kramdown
+permalink: /:year/:month/:day/:title/
+excerpt_separator: "<!--mais-->"

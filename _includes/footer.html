@@ -1,0 +1,32 @@
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <h3 class="footer-logo">{{ site.title }}</h3>
+        <p>{{ site.description }}</p>
+        <p class="footer-disclaimer">Este site pode conter links de afiliados. Podemos receber uma comissão por compras feitas através desses links, sem custo adicional para si.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Categorias</h4>
+        <ul>
+          <li><a href="{{ '/categoria/noticias/' | relative_url }}">Notícias</a></li>
+          <li><a href="{{ '/categoria/vendas/' | relative_url }}">Vendas &amp; Ofertas</a></li>
+          <li><a href="{{ '/categoria/guias/' | relative_url }}">Guias</a></li>
+          <li><a href="{{ '/categoria/afiliados/' | relative_url }}">Links Afiliados</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Informação</h4>
+        <ul>
+          <li><a href="{{ '/' | relative_url }}">Início</a></li>
+          <li><a href="{{ '/contacto/' | relative_url }}">Contacto</a></li>
+          <li><a href="{{ '/privacidade/' | relative_url }}">Política de Privacidade</a></li>
+          <li><a href="{{ '/feed.xml' | relative_url }}">RSS Feed</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© {{ site.time | date: "%Y" }} {{ site.title }}. Todos os direitos reservados.</p>
+    </div>
+  </div>
+</footer>

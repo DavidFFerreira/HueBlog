@@ -1,0 +1,125 @@
+---
+layout: default
+---
+
+<!-- Destaques Hero -->
+{% assign posts_destaque = site.posts | where: "destaque", true | limit: 4 %}
+{% if posts_destaque.size > 0 %}
+<section class="hero-section">
+  <div class="container">
+    <h2 class="section-title">✨ Últimos Destaques</h2>
+    <div class="hero-grid">
+      {% for post in posts_destaque %}
+      <a href="{{ post.url | relative_url }}" class="hero-card {% if forloop.first %}hero-card--main{% endif %}">
+        {% if post.imagem %}
+        <div class="hero-card__img">
+          <img src="{{ post.imagem | relative_url }}" alt="{{ post.title }}" loading="lazy">
+        </div>
+        {% else %}
+        <div class="hero-card__img hero-card__img--placeholder" style="background: {{ post.cor | default: '#e8f0fe' }}">
+          <span class="placeholder-icon">{{ post.icone | default: '📰' }}</span>
+        </div>
+        {% endif %}
+        <div class="hero-card__body">
+          {% if post.categoria %}<span class="tag tag--{{ post.categoria }}">{{ post.categoria | capitalize }}</span>{% endif %}
+          <h3>{{ post.title }}</h3>
+          <span class="meta-date">{{ post.date | date: "%-d de %B de %Y" }}</span>
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<!-- Categorias com posts recentes -->
+{% assign categorias = "noticias,vendas,guias,afiliados" | split: "," %}
+{% assign cat_labels = "Notícias,Vendas & Ofertas,Guias,Links Afiliados" | split: "," %}
+{% assign cat_icons = "📰,🏷️,📖,🔗" | split: "," %}
+
+{% for cat in categorias %}
+{% assign cat_posts = site.posts | where: "categoria", cat | limit: 6 %}
+{% if cat_posts.size > 0 %}
+<section class="cat-section">
+  <div class="container">
+    <div class="cat-header">
+      <h2 class="section-title">{{ cat_icons[forloop.index0] }} {{ cat_labels[forloop.index0] }}</h2>
+      <a href="{{ '/categoria/' | append: cat | append: '/' | relative_url }}" class="ver-todos">Ver todos →</a>
+    </div>
+    <div class="posts-grid">
+      {% for post in cat_posts %}
+      <a href="{{ post.url | relative_url }}" class="post-card">
+        <div class="post-card__img">
+          {% if post.imagem %}
+          <img src="{{ post.imagem | relative_url }}" alt="{{ post.title }}" loading="lazy">
+          {% else %}
+          <div class="post-card__img--placeholder" style="background: {{ post.cor | default: '#f1f5f9' }}">
+            <span>{{ cat_icons[forloop.parentloop.index0] }}</span>
+          </div>
+          {% endif %}
+        </div>
+        <div class="post-card__body">
+          <h3>{{ post.title }}</h3>
+          <span class="meta-date">{{ post.date | date: "%-d/%-m/%Y" }}</span>
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+{% endfor %}
+
+<!-- Feed principal de artigos -->
+<section class="main-feed">
+  <div class="container container--split">
+    <div class="feed-main">
+      <h2 class="section-title">📋 Todas as Publicações</h2>
+      {% for post in paginator.posts %}
+      <article class="article-card">
+        {% if post.imagem %}
+        <a href="{{ post.url | relative_url }}" class="article-card__img">
+          <img src="{{ post.imagem | relative_url }}" alt="{{ post.title }}" loading="lazy">
+        </a>
+        {% endif %}
+        <div class="article-card__body">
+          <div class="article-card__meta">
+            <time>{{ post.date | date: "%-d de %B de %Y" }}</time>
+            {% if post.categoria %}<a href="{{ '/categoria/' | append: post.categoria | append: '/' | relative_url }}" class="tag tag--{{ post.categoria }}">{{ post.categoria | capitalize }}</a>{% endif %}
+            {% if post.autor %}<span class="autor">{{ post.autor }}</span>{% endif %}
+          </div>
+          <h2><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
+          {% if post.subtitulo %}<p class="subtitulo">{{ post.subtitulo }}</p>{% endif %}
+          <p class="excerpt">{{ post.excerpt | strip_html | truncate: 200 }}</p>
+          <a href="{{ post.url | relative_url }}" class="read-more">Ler mais →</a>
+        </div>
+      </article>
+      {% endfor %}
+
+      <!-- Paginação -->
+      {% if paginator.total_pages > 1 %}
+      <nav class="pagination">
+        {% if paginator.previous_page %}
+        <a href="{{ paginator.previous_page_path | relative_url }}" class="pagination__btn">← Anterior</a>
+        {% endif %}
+        {% for page in (1..paginator.total_pages) %}
+          {% if page == paginator.page %}
+          <span class="pagination__current">{{ page }}</span>
+          {% elsif page == 1 %}
+          <a href="{{ '/' | relative_url }}" class="pagination__btn">{{ page }}</a>
+          {% else %}
+          <a href="{{ '/page/' | append: page | append: '/' | relative_url }}" class="pagination__btn">{{ page }}</a>
+          {% endif %}
+        {% endfor %}
+        {% if paginator.next_page %}
+        <a href="{{ paginator.next_page_path | relative_url }}" class="pagination__btn">Próxima →</a>
+        {% endif %}
+      </nav>
+      {% endif %}
+    </div>
+
+    <aside class="sidebar">
+      {% include sidebar.html %}
+    </aside>
+  </div>
+</section>

@@ -1,0 +1,40 @@
+---
+layout: default
+---
+<div class="container container--split">
+  <div class="feed-main">
+    <header class="cat-page-header">
+      <h1>{{ page.titulo | default: page.title }}</h1>
+      {% if page.descricao %}<p>{{ page.descricao }}</p>{% endif %}
+    </header>
+
+    {% assign cat_posts = site.posts | where: "categoria", page.categoria %}
+    {% if cat_posts.size == 0 %}
+    <p class="empty-state">Ainda não há publicações nesta categoria.</p>
+    {% else %}
+    {% for post in cat_posts %}
+    <article class="article-card">
+      {% if post.imagem %}
+      <a href="{{ post.url | relative_url }}" class="article-card__img">
+        <img src="{{ post.imagem | relative_url }}" alt="{{ post.title }}" loading="lazy">
+      </a>
+      {% endif %}
+      <div class="article-card__body">
+        <div class="article-card__meta">
+          <time>{{ post.date | date: "%-d de %B de %Y" }}</time>
+          {% if post.autor %}<span class="autor">{{ post.autor }}</span>{% endif %}
+        </div>
+        <h2><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
+        {% if post.subtitulo %}<p class="subtitulo">{{ post.subtitulo }}</p>{% endif %}
+        <p class="excerpt">{{ post.excerpt | strip_html | truncate: 200 }}</p>
+        <a href="{{ post.url | relative_url }}" class="read-more">Ler mais →</a>
+      </div>
+    </article>
+    {% endfor %}
+    {% endif %}
+  </div>
+
+  <aside class="sidebar">
+    {% include sidebar.html %}
+  </aside>
+</div>
